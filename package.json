@@ -1,0 +1,41 @@
+{
+  "name": "go-hydra",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "mijime <07cc0110+gthb@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "eslint-fix": "eslint --fix *.js src",
+    "jest": "jest --coverage"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-helmet": "^4.0.0",
+    "react-router": "^4.0.0-2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "eslint": "^3.16.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-promise": "^3.4.2",
+    "eslint-plugin-react": "^6.10.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "event-stream": "^3.3.4",
+    "flow-bin": "^0.39.0",
+    "gulp": "^3.9.1",
+    "gulp-flowtype": "^1.0.0",
+    "gulp-jest": "^1.0.0",
+    "jest": "^19.0.0",
+    "jest-cli": "^19.0.0",
+    "minimist": "^1.2.0",
+    "react-test-renderer": "^15.4.2",
+    "webpack": "^2.2.1"
+  },
+  "jest": {}
+}

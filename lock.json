@@ -1,0 +1,29 @@
+{
+    "memo": "68d94835d6b1b4b6f49295606167f7cda1bdcd6f992015de0e0c6ce7712977ed",
+    "projects": [
+        {
+            "name": "github.com/gorilla/context",
+            "version": "v1.1",
+            "revision": "1ea25387ff6f684839d82767c1733ff4d4d15d0a",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/gorilla/mux",
+            "version": "v1.3.0",
+            "revision": "392c28fe23e1c45ddba891b0320b3b5df220beea",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/jessevdk/go-assets",
+            "branch": "master",
+            "revision": "4f4301a06e153ff90e17793577ab6bf79f8dc5c5",
+            "packages": [
+                "."
+            ]
+        }
+    ]
+}

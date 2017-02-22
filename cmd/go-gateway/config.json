@@ -1,0 +1,55 @@
+{
+  "behaviors": [
+    {
+      "headers": null,
+      "host": "www.example.com",
+      "methods": null,
+      "name": "3000",
+      "path": "/",
+      "queries": null
+    },
+    {
+      "headers": {
+        "X-Api-Token": [
+          "xxx"
+        ]
+      },
+      "host": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "3000",
+      "path": "/wait",
+      "queries": null
+    },
+    {
+      "headers": null,
+      "host": "",
+      "methods": null,
+      "name": "8080",
+      "path": "/",
+      "queries": null
+    }
+  ],
+  "origins": {
+    "3000": {
+      "apply_headers": null,
+      "hosts": [
+        "http://localhost:3001",
+        "http://localhost:3002"
+      ],
+      "max_idle_conns": 0,
+      "max_idle_conns_per_host": 0,
+      "max_response_header_bytes": 0
+    },
+    "8080": {
+      "apply_headers": null,
+      "hosts": [
+        "http://localhost:8080"
+      ],
+      "max_idle_conns": 0,
+      "max_idle_conns_per_host": 0,
+      "max_response_header_bytes": 0
+    }
+  }
+}
