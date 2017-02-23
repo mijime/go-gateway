@@ -9,10 +9,13 @@
     "jest": "jest --coverage"
   },
   "dependencies": {
+    "@cycle/core": "^7.0.0",
+    "@cycle/rxjs-run": "^4.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-helmet": "^4.0.0",
-    "react-router": "^4.0.0-2"
+    "react-router": "^4.0.0-2",
+    "rx": "^4.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
@@ -21,7 +24,7 @@
     "babel-preset-react": "^6.23.0",
     "eslint": "^3.16.0",
     "eslint-config-standard": "^6.2.1",
-    "eslint-loader": "^1.6.1",
+    "eslint-loader": "^1.6.3",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-promise": "^3.4.2",
     "eslint-plugin-react": "^6.10.0",
@@ -29,6 +32,7 @@
     "event-stream": "^3.3.4",
     "flow-bin": "^0.39.0",
     "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
     "gulp-flowtype": "^1.0.0",
     "gulp-jest": "^1.0.0",
     "jest": "^19.0.0",
