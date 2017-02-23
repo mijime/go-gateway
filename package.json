@@ -5,7 +5,7 @@
   "author": "mijime <07cc0110+gthb@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "eslint-fix": "eslint --fix *.js src",
+    "eslint-fix": "eslint --fix *.js src *.d",
     "jest": "jest --coverage"
   },
   "dependencies": {
