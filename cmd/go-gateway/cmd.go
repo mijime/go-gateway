@@ -13,6 +13,8 @@ import (
 	"net/http"
 	"runtime"
 	"sync"
+
+	"github.com/google/gops/agent"
 )
 
 func StartServer(wg *sync.WaitGroup, s *http.Server, l net.Listener) error {
@@ -32,6 +34,10 @@ func MustListen(l net.Listener, err error) net.Listener {
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
+
+	if err := agent.Listen(nil); err != nil {
+		log.Fatal(err)
+	}
 
 	var (
 		addr       string

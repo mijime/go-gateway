@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 
+	stats "github.com/fukata/golang-stats-api-handler"
 	"github.com/gorilla/mux"
 	"github.com/mijime/go-gateway/lib/gateway"
 )
@@ -71,6 +72,8 @@ func NewHttpManageService(app *http.Server) HttpManageHttpService {
 		w.Header().Set(HeaderContentType, ContentTypeJson)
 		w.Write(res)
 	}).Methods(MethodPost)
+
+	api.HandleFunc("/stats.json", stats.Handler).Methods(MethodGet)
 
 	r.PathPrefix("/").Handler(http.FileServer(Assets))
 

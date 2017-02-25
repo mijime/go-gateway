@@ -1,10 +1,26 @@
 {
-    "memo": "68d94835d6b1b4b6f49295606167f7cda1bdcd6f992015de0e0c6ce7712977ed",
+    "memo": "7cbd4e70a556182506365a25cc0862ee51db6f96aa1cebccad76499f9b4f1bf5",
     "projects": [
+        {
+            "name": "github.com/fukata/golang-stats-api-handler",
+            "version": "v1.0.0",
+            "revision": "90f0b59102629831cc109845475a8d77043412ec",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/google/gops",
+            "version": "v0.3.1",
+            "revision": "6364e368a3bea7731188ee232c553996007a6eab",
+            "packages": [
+                "agent"
+            ]
+        },
         {
             "name": "github.com/gorilla/context",
             "version": "v1.1",
-            "revision": "1ea25387ff6f684839d82767c1733ff4d4d15d0a",
+            "revision": "a85d2e53ba63bdea074dbbbb5983f0516974e87b",
             "packages": [
                 "."
             ]
