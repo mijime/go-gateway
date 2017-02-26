@@ -12,7 +12,11 @@ import path from 'path'
 
 export default function () {
   return stream.map((file, cb) => {
-    const Index = require(path.resolve(file.path)).default
+    const filePath = path.resolve(file.path)
+    if (require.cache[filePath]) {
+      delete require.cache[filePath]
+    }
+    const Index = require(filePath).default
 
     if (Index == null) return cb(null, file)
 
