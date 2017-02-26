@@ -18,8 +18,14 @@ const argv = minimist(process.argv.slice(2))
 
 const watched = {}
 
-gulp.task('default', ['test', 'html', 'webpack'])
-gulp.task('test', ['eslint', 'flowtype', 'jest'])
+gulp.task('default', ['jest', 'html', 'webpack'])
+
+function srcJsStream (jsPath) {
+  return gulp.src(jsPath)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
+}
 
 gulp.task('flowtype', () => {
   if (argv.watch && !watched['flowtype']) {
@@ -27,7 +33,7 @@ gulp.task('flowtype', () => {
     watched['flowtype'] = true
   }
 
-  return gulp.src(['src/**/*.js'])
+  return srcJsStream(['src/**/*.js'])
     .pipe(flowtype({abort: true}))
 })
 
@@ -37,20 +43,8 @@ gulp.task('jest', () => {
     watched['jest'] = true
   }
 
-  return gulp.src(['src/**/__tests__'])
+  return srcJsStream(['src/**/__tests__'])
     .pipe(jest())
-})
-
-gulp.task('eslint', () => {
-  if (argv.watch && !watched['eslint']) {
-    gulp.watch(['*.js', 'src/**/*.js'], ['eslint'])
-    watched['eslint'] = true
-  }
-
-  return gulp.src(['*.js', 'src/**/*.js'])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
 })
 
 gulp.task('html', () => {
@@ -59,7 +53,7 @@ gulp.task('html', () => {
     watched['html'] = true
   }
 
-  return gulp.src(['src/route/**/*.js'])
+  return srcJsStream(['src/route/**/*.js'])
     .pipe(jsxRenderer())
     .pipe(gulp.dest(config.output.path))
 })
