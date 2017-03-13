@@ -1,7 +1,6 @@
 // Copyright 2017 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
-
 package main
 
 import (
@@ -11,7 +10,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"sync"
+	"os"
 
 	"github.com/mijime/go-gateway/lib/gateway"
 )
@@ -22,6 +21,28 @@ type CustomOrigin struct {
 	MaxIdleConnsPerHost    int                 `json:"max_idle_conns_per_host"`
 	MaxResponseHeaderBytes int64               `json:"max_response_header_bytes"`
 	ApplyHeaders           map[string][]string `json:"apply_headers"`
+	LimitRate              int64               `json:"limit_rate"`
+}
+
+type LimitHandleWrapper struct {
+	Limit   chan bool
+	Handler http.Handler
+}
+
+func (s LimitHandleWrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	s.Limit <- true
+	s.Handler.ServeHTTP(w, r)
+	<-s.Limit
+}
+
+type LoggingHandleWrapper struct {
+	Handler http.Handler
+}
+
+func (s LoggingHandleWrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	log.Println("--->", r.Method, r.URL)
+	s.Handler.ServeHTTP(w, r)
+	log.Println("<---", r.Method, r.URL)
 }
 
 func (o CustomOrigin) CreateHandler(b gateway.Behavior) (http.Handler, error) {
@@ -40,25 +61,20 @@ func (o CustomOrigin) CreateHandler(b gateway.Behavior) (http.Handler, error) {
 		targets.Value = target
 		targets = targets.Next()
 	}
-
-	m := &sync.Mutex{}
+	m := make(chan bool, 1)
 	director := func(r *http.Request) {
-		m.Lock()
-		defer m.Unlock()
-
+		m <- true
 		u := targets.Value.(*url.URL)
-
-		log.Println(b.Name, r.Method, r.URL)
 		r.URL.Scheme = u.Scheme
 		r.URL.Host = u.Host
+		targets = targets.Next()
+		<-m
 
 		for k, vl := range o.ApplyHeaders {
 			for _, v := range vl {
 				r.Header.Set(k, v)
 			}
 		}
-
-		targets = targets.Next()
 	}
 
 	transport := &http.Transport{
@@ -67,10 +83,22 @@ func (o CustomOrigin) CreateHandler(b gateway.Behavior) (http.Handler, error) {
 		MaxResponseHeaderBytes: o.MaxResponseHeaderBytes,
 	}
 
-	return &httputil.ReverseProxy{
-		Director:  director,
-		Transport: transport,
-	}, nil
+	rp := LoggingHandleWrapper{
+		Handler: &httputil.ReverseProxy{
+			Director:  director,
+			Transport: transport,
+			ErrorLog:  log.New(os.Stderr, b.Name, log.LstdFlags|log.Llongfile),
+		},
+	}
+
+	if o.LimitRate > 0 {
+		return LimitHandleWrapper{
+			Limit:   make(chan bool, o.LimitRate),
+			Handler: rp,
+		}, nil
+	}
+
+	return rp, nil
 }
 
 type CustomConfiguration struct {

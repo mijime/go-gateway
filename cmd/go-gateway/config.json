@@ -33,6 +33,7 @@
   ],
   "origins": {
     "3000": {
+      "limit_rate": 0,
       "apply_headers": null,
       "hosts": [
         "http://localhost:3001",
@@ -43,12 +44,13 @@
       "max_response_header_bytes": 0
     },
     "8080": {
+      "limit_rate": 8,
       "apply_headers": null,
       "hosts": [
         "http://localhost:8080"
       ],
-      "max_idle_conns": 0,
-      "max_idle_conns_per_host": 0,
+      "max_idle_conns": 8,
+      "max_idle_conns_per_host": 8,
       "max_response_header_bytes": 0
     }
   }

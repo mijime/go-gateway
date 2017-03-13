@@ -6,7 +6,6 @@ package main
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 
 	stats "github.com/fukata/golang-stats-api-handler"
@@ -42,8 +41,6 @@ func NewHttpManageService(app *http.Server) HttpManageHttpService {
 	api := r.PathPrefix("/api").Subrouter()
 
 	api.HandleFunc("/config.json", func(w http.ResponseWriter, r *http.Request) {
-		log.Println(r.Method, r.URL)
-
 		res, err := hms.GetConfig()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -55,8 +52,6 @@ func NewHttpManageService(app *http.Server) HttpManageHttpService {
 	}).Methods(MethodGet)
 
 	api.HandleFunc("/config.json", func(w http.ResponseWriter, r *http.Request) {
-		log.Println(r.Method, r.URL)
-
 		updateErr := hms.UpdateConfig(r.Body)
 		if updateErr != nil {
 			http.Error(w, updateErr.Error(), http.StatusBadRequest)
