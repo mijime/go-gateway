@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"os"
 
 	"github.com/mijime/go-gateway/lib/gateway"
 )
@@ -87,7 +86,6 @@ func (o CustomOrigin) CreateHandler(b gateway.Behavior) (http.Handler, error) {
 		Handler: &httputil.ReverseProxy{
 			Director:  director,
 			Transport: transport,
-			ErrorLog:  log.New(os.Stderr, b.Name, log.LstdFlags|log.Llongfile),
 		},
 	}
 
