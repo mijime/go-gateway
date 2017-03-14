@@ -60,6 +60,7 @@ func (o CustomOrigin) CreateHandler(b gateway.Behavior) (http.Handler, error) {
 		targets.Value = target
 		targets = targets.Next()
 	}
+
 	m := make(chan bool, 1)
 	director := func(r *http.Request) {
 		m <- true

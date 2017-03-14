@@ -12,6 +12,7 @@ import (
 	"net"
 	"net/http"
 	"runtime"
+	"strings"
 	"sync"
 
 	"github.com/google/gops/agent"
@@ -22,6 +23,16 @@ func StartServer(wg *sync.WaitGroup, s *http.Server, l net.Listener) error {
 	defer l.Close()
 
 	return s.Serve(l)
+}
+
+func createListener(addr string) (net.Listener, error) {
+	addrs := strings.Split(addr, "://")
+
+	if len(addrs) < 2 {
+		return net.Listen("tcp", addrs[0])
+	}
+
+	return net.Listen(addrs[0], addrs[1])
 }
 
 func MustListen(l net.Listener, err error) net.Listener {
@@ -68,10 +79,10 @@ func main() {
 	wg := &sync.WaitGroup{}
 
 	wg.Add(1)
-	go StartServer(wg, app, MustListen(net.Listen("tcp", addr)))
+	go StartServer(wg, app, MustListen(createListener(addr)))
 
 	wg.Add(1)
-	go StartServer(wg, hms.Server, MustListen(net.Listen("tcp", manageAddr)))
+	go StartServer(wg, hms.Server, MustListen(createListener(manageAddr)))
 
 	wg.Wait()
 }
